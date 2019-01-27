@@ -141,7 +141,7 @@
       log("Transaction On Its Way...");
      
                    
-      banking.deposit.sendTransaction({value: window.web3.toWei(document.getElementById("depositAmount").value,'ether')}, function (err, hash) {
+      banking.deposit.sendTransaction(document.getElementById("depositAmount").value,{value: window.web3.toWei(document.getElementById("depositAmount").value,'ether')}, function (err, hash) {
         if (err) {
           return error(err);
         }
@@ -158,7 +158,7 @@
       log("Found injected web3.");
       web3 = new Web3(web3.currentProvider);
       ethereum.enable();
-      if (web3.version.network != 3) {
+      if (web3.version.network == 3) {
         error("Wrong network detected. Please switch to the Ropsten test network.");
       } else {
         log("Connected to the Ropsten test network.");
