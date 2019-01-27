@@ -141,7 +141,7 @@
       log("Transaction On Its Way...");
      
                    
-      banking.deposit.sendTransaction(document.getElementById("depositAmount").value,{value: window.web3.toWei(document.getElementById("depositAmount").value,'ether')}, function (err, hash) {
+      banking.deposit.sendTransaction(document.getElementById("depositAmount").value*1000000000000000000,{value: window.web3.toWei(document.getElementById("depositAmount").value,'ether')}, function (err, hash) {
         if (err) {
           return error(err);
         }
