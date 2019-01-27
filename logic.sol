@@ -15,6 +15,7 @@ contract Banking {
     mapping(address=>customer) private accounts;
     event Deposits (address user, uint amount);
     event withdrawal(address user, uint amount);
+    event transfer (address to, uint amount);
     
     function createAccount(string memory _name) public {
         require(!accounts[msg.sender].created);
@@ -28,7 +29,12 @@ contract Banking {
         require(accounts[msg.sender].created);
         accounts[msg.sender].totalAmount+= amount;
         emit Deposits(msg.sender, msg.value);
-     
+        }
+    function transferFunds(address payable to , uint fundAmount) public {
+            require(accounts[msg.sender].totalAmount>= fundAmount);
+            require(accounts[to].created);
+            to.transfer(fundAmount);
+            accounts[msg.sender].totalAmount-=fundAmount;
         }
     function withdraw(uint amounts) public payable {
     require(accounts[msg.sender].totalAmount>=amounts);
@@ -53,5 +59,7 @@ contract Banking {
         function getMyAccountBalance() public view returns(uint) {
         return (accounts[msg.sender].totalAmount);
         }
-    
+         function getMyAccountName() public view returns(string memory) {
+        return (accounts[msg.sender].name);
+         }
     }
