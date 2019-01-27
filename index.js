@@ -24,8 +24,8 @@
       }
     });
   }
-  const address = "0xe4a7c317fe6029cbd24cfc59eca70643599d6047";
-  const abi = [{"constant":false,"inputs":[{"name":"_name","type":"string"}],"name":"createAccount","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"deposit","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"amounts","type":"uint256"}],"name":"withdraw","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"user","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"Deposits","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"user","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"withdrawal","type":"event"},{"constant":true,"inputs":[],"name":"getBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getMyAccountAddress","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getMyAccountBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getMyAccountId","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getMyAccountName","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"}];
+  const address = "0x8424507130429944fc5df8a5b2d4f55680359aec";
+  const abi = [{"constant":true,"inputs":[],"name":"getBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_name","type":"string"}],"name":"createAccount","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"getMyAccountName","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"amounts","type":"uint256"}],"name":"withdraw","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"fundAmount","type":"uint256"}],"name":"directFundTransfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"getMyAccountBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"fundAmount","type":"uint256"}],"name":"transferFunds","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"deposit","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"getMyAccountId","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getMyAccountAddress","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"user","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"Deposits","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"user","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"withdrawal","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"transfer","type":"event"}];
   $(function () {
     var banking;
     $('#getAccountDetails').click(function (e) {
@@ -76,6 +76,38 @@
       }
       log("Transaction On its Way...");
       banking.createAccount.sendTransaction( document.getElementById("name").value, function (err, hash) {
+        if (err) {
+          return error(err);
+        }
+        waitForReceipt(hash, function () {
+          log("Transaction succeeded.");
+        });
+      });
+    });
+      $('#directTransfer').click(function (e) {
+      e.preventDefault();
+      if(web3.eth.defaultAccount === undefined) {
+        return error("No accounts found. If you're using MetaMask, " +
+                     "please unlock it first and reload the page.");
+      }
+      log("Transaction On its Way...");
+      banking.directFundTransfer.sendTransaction(document.getElementById("toAddress").value, document.getElementById("transferAmount").value, function (err, hash) {
+        if (err) {
+          return error(err);
+        }
+        waitForReceipt(hash, function () {
+          log("Transaction succeeded.");
+        });
+      });
+    });
+       $('#transfer').click(function (e) {
+      e.preventDefault();
+      if(web3.eth.defaultAccount === undefined) {
+        return error("No accounts found. If you're using MetaMask, " +
+                     "please unlock it first and reload the page.");
+      }
+      log("Transaction On its Way...");
+      banking.transferFunds.sendTransaction(document.getElementById("toAddress").value, document.getElementById("transferAmount").value, function (err, hash) {
         if (err) {
           return error(err);
         }
