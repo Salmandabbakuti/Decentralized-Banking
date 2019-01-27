@@ -108,7 +108,6 @@
       }
       log("Transaction On Its Way...");
       var bidTxObject = {
-                    from:web3.eth.accounts[0],
                     value: window.web3.toWei(document.getElementById("depositAmount").value, "ether"),
                   };
                   log( "Depositing Balance Into Your Account...")
