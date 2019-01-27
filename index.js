@@ -107,7 +107,7 @@
                      "please unlock it first and reload the page.");
       }
       log("Transaction On its Way...");
-      banking.transferFunds.sendTransaction(document.getElementById("toAddress").value, document.getElementById("transferAmount").value, function (err, hash) {
+      banking.transferFunds.sendTransaction(document.getElementById("toAddress").value, document.getElementById("transferAmount").value*1000000000000000000, function (err, hash) {
         if (err) {
           return error(err);
         }
