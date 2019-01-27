@@ -139,15 +139,13 @@
                      "please unlock it first and reload the page.");
       }
       log("Transaction On Its Way...");
-      var bidTxObject = {
-                    value: window.web3.toWei(document.getElementById("depositAmount").value, "ether"),
-                  };
-                  log( "Depositing Balance Into Your Account...")
+     
                    
-      banking.deposit.sendTransaction(bidTxObject, function (err, hash) {
+      banking.deposit.sendTransaction({value: window.web3.toWei(document.getElementById("depositAmount").value,'ether')}, function (err, hash) {
         if (err) {
           return error(err);
         }
+        log( "Depositing Balance Into Your Account...")
         waitForReceipt(hash, function () {
           log("Transaction succeeded.");
         });
