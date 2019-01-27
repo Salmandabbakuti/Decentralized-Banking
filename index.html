@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Decentralized Banking</title>
+</head>
+<body>
+  <div id="band"></div>
+  <h2>Banking</h2>
+  </br>
+</br>
+   <div style="text-align: center;">
+   	<label><b>Create Account:</b></label>
+<input type="text" id="name" placeholder=" Enter Name" required />
+</div>
+<div style="text-align: center;">
+<button id="creteAccount">Create Account </button>
+</div>
+<div style="text-align: center;">
+<label><b>Deposit Balance :</b></label>
+<input type="number" id="depositAmount" placeholder="Enter Deposit Amount " required />
+<button id="deposit">Deposit Amount </button>
+</div>
+<div style="text-align: center;">
+<label><b>Withdraw Amount:</b></label>
+<input type="number" id="withdrawAmount" placeholder="Enter Amount to Withdraw" required />
+<button id="withdraw">Withdraw Amount </button>
+</div>
+<div style="text-align: center;">
+<button id="getAccountDetails">Get Account Summary</button>
+</div>
+</br>
+<div id = "response" style="text-align: center;">
+<p><b>Name:</b><span id="getName">??</span></p>
+<p><b>Address:</b><span id="getAddress">??</span></p>
+<p><b>Account Id:</b><span id="getId">??</span></p>
+<p><b>Balance:</b><span id="getBalance">??</span></p>
+
+</div>
+<hr>
+<div id="log" style="text-align: center;"></div>
+ <link rel="stylesheet" href="index.css">
+<script src="web3.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src ="index.js"></script>
+</body>
+</html>
