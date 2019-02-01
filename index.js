@@ -24,8 +24,8 @@
       }
     });
   }
-  const address = "0x8424507130429944fc5df8a5b2d4f55680359aec";
-  const abi = [{"constant":true,"inputs":[],"name":"getBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_name","type":"string"}],"name":"createAccount","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"getMyAccountName","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"amounts","type":"uint256"}],"name":"withdraw","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"fundAmount","type":"uint256"}],"name":"directFundTransfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"getMyAccountBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"fundAmount","type":"uint256"}],"name":"transferFunds","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"deposit","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"getMyAccountId","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getMyAccountAddress","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"user","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"Deposits","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"user","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"withdrawal","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"transfer","type":"event"}];
+  const address = "0x8f244892a4a3685ab93e66b48bb760b569dc00aa";
+  const abi = [{"constant":false,"inputs":[{"name":"_name","type":"string"}],"name":"createAccount","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"deposit","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"fundAmount","type":"uint256"}],"name":"directFundTransfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"fundAmount","type":"uint256"}],"name":"transferFunds","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"fundAmount","type":"uint256"}],"name":"transferViaUpi","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"amounts","type":"uint256"}],"name":"withdraw","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"user","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"Deposits","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"user","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"withdrawal","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"transferDirectly","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"transferViaUPI","type":"event"},{"constant":true,"inputs":[],"name":"getBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getMyAccountAddress","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getMyAccountBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getMyAccountId","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getMyAccountName","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"}];
   $(function () {
     var banking;
     $('#getAccountDetails').click(function (e) {
@@ -92,6 +92,38 @@
       }
       log("Transaction On its Way...");
       banking.directFundTransfer.sendTransaction(document.getElementById("toAddress").value, document.getElementById("transferAmount").value*1000000000000000000, function (err, hash) {
+        if (err) {
+          return error(err);
+        }
+        waitForReceipt(hash, function () {
+          log("Transaction succeeded.");
+        });
+      });
+    });
+       $('#transfer').click(function (e) {
+      e.preventDefault();
+      if(web3.eth.defaultAccount === undefined) {
+        return error("No accounts found. If you're using MetaMask, " +
+                     "please unlock it first and reload the page.");
+      }
+      log("Transaction On its Way...");
+      banking.transferFunds.sendTransaction(document.getElementById("toAddress").value, document.getElementById("transferAmount").value*1000000000000000000, function (err, hash) {
+        if (err) {
+          return error(err);
+        }
+        waitForReceipt(hash, function () {
+          log("Transaction succeeded.");
+        });
+      });
+    });
+        $('#transferViaUpi').click(function (e) {
+      e.preventDefault();
+      if(web3.eth.defaultAccount === undefined) {
+        return error("No accounts found. If you're using MetaMask, " +
+                     "please unlock it first and reload the page.");
+      }
+      log("Transaction On its Way...");
+      banking.transferViaUpi.sendTransaction(document.getElementById("toAddress").value, document.getElementById("transferAmount").value*1000000000000000000,{value: window.web3.toWei(document.getElementById("transferAmount").value,'ether')}, function (err, hash) {
         if (err) {
           return error(err);
         }
