@@ -10,7 +10,13 @@ h3, h2, h4 {
     color: green;
     text-align: center;
 }
-
+body {
+         background-image: url(daa.jpg);
+        background-repeat : no-repeat;
+    margin: 0;
+    font-family: sans-serif;
+    color: white;
+}
 button {
      width: 10%;
   background-color: #4CAF50;
