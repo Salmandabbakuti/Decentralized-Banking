@@ -28,7 +28,7 @@ button {
   cursor: pointer;
 }
 input[type=text], input[type=number] {
-  padding: 10px 8px;
+  padding: 7px 6px;
   margin: 8px 0;
   display: inline-block;
   border: 1px solid #ccc;
