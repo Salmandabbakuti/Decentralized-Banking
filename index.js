@@ -1,5 +1,6 @@
  function log(message) {
     $('#log').text(message));
+    console.log(message);
     $('#log').scrollTop($('#log').prop('scrollHeight'));
   }
   function error(message) {
