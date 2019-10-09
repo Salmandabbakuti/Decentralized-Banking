@@ -11,12 +11,11 @@ h3, h2, h4 {
     text-align: center;
 }
 body {
-    /*background-image: url(daa.jpg);*/
-    background-color:rgb(224,247,250);
+    background-image: url(daa.jpg);
     background-repeat : no-repeat;
     margin: 0;
     font-family: sans-serif;
-    color: white;
+    color:white;
 }
 button {
   width:auto;
